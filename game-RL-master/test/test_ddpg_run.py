@@ -31,6 +31,8 @@ if __name__ == '__main__':
         state[key] = th.FloatTensor(value)
     step = 0
     while not done:
+        if step > 100:
+            break
         step +=1
         action = model(state).detach().numpy()
         state, reward, done, truncated, info = env.step(action)

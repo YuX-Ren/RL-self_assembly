@@ -7,14 +7,14 @@ class Discret_Env():
     def __init__(self, worker_id, frame_tick = 1, num_tick = 1,monitor_file_path = None):
         self.num_tick = num_tick
         self.frame_tick = frame_tick
-        self.action_num = 3
+        self.action_num = 10
         self.monitor_file_path = monitor_file_path
         self.state = {
             "Mstate": np.zeros((self.num_tick, 4), dtype = np.int32)   
         }
         self.ticks:int = 0
         self.all_reward = 0.0
-        self.game = discrete_T_env(seed=worker_id, temp_sele=3, state_num = 4, threshold = 0.01)
+        self.game = discrete_T_env(seed=worker_id, temp_sele=self.action_num, state_num = 4, threshold = 0.01)
     def reset(self, seed = None):
         state = self.game.reset()
         for key in self.state.keys():
@@ -48,7 +48,6 @@ class Continus_Env():
     def __init__(self, worker_id, frame_tick = 1, num_tick = 1,monitor_file_path = None):
         self.num_tick = num_tick
         self.frame_tick = frame_tick
-        self.action_num = 3
         self.monitor_file_path = monitor_file_path
         self.state = {
             "Mstate": np.zeros((self.num_tick, 4), dtype = np.int32)   
@@ -68,7 +67,6 @@ class Continus_Env():
     
     def step(self, action_index):
         all_reward: float = 0.0
-
         state, reward, done, truncated, info = self.game.step(action_index)
         all_reward += reward
         self.ticks += 1

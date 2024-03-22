@@ -49,7 +49,7 @@ SEQ_LEN = 1
 OBS_SHAPE = {
     "Mstate": (SEQ_LEN, 4),
 }
-ACTION_NUM = 3
+ACTION_NUM = 10
 
 from model.asm_game_arch import AsmModelArch
 MODEL_CLASS = AsmModelArch

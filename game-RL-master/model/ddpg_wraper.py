@@ -18,7 +18,8 @@ class DdpgModelWrapper():
         model_save_dir: str):
         self.__device = device
         self.input_shape = obs_shape_dict
-        self.random_process = GaussianWhiteNoiseProcess(mu = 0, sigma = 0.2, sigma_min = 0.05, n_steps_annealing = 1000)
+        # self.random_process = GaussianWhiteNoiseProcess(mu = 0, sigma = 0.2, sigma_min = 0.05, n_steps_annealing = 1000)
+        self.random_process = OrnsteinUhlenbeckProcess(size = (1, 1), theta = 0.15, mu = 0, sigma = 0.2)
         self.actor, self.actor_target, self.critic, self.critic_target = self.__build_model(model_arch, obs_shape_dict)
         self.actor_optim, self.critic_optim = self.__build_optimizer(optimizer, learning_rate, weight_decay)
         self.loss_func =self.__build_loss_function(loss_function)        

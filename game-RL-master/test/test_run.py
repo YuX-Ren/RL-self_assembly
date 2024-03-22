@@ -12,7 +12,7 @@ if __name__ == '__main__':
     OBS_SHAPE = {
         "Mstate": (1, 4),
     }    
-    model = AsmModelArch(OBS_SHAPE,3)
+    model = AsmModelArch(OBS_SHAPE,10)
     # load the model
     model_file_dir = "result/model"
     load_file_name = '0'
@@ -30,13 +30,14 @@ if __name__ == '__main__':
     step = 0
     while not done:
         step +=1
-        if step < 3:
+        if step < 1000:
             action = model(state).argmax().numpy()
-            state, reward, done, truncated, info = env.step(2)
-        else:
-            # break
-            action = model(state).argmax().numpy()
-            state, reward, done, truncated, info = env.step(2)
-        print(reward, done, action, info, step, file=open("test.txt", "a"))
+            state, reward, done, truncated, info = env.step(action)
+            print(reward, done, action, info, step)
+        # else:
+        #     # break
+        #     action = model(state).argmax().numpy()
+        #     state, reward, done, truncated, info = env.step(2)
+        # print(reward, done, action, info, step, file=open("test.txt", "a"))
         for key, value in state.items():
             state[key] = th.FloatTensor(value)
