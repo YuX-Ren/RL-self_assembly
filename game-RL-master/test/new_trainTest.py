@@ -7,7 +7,8 @@ import torch
 # from config.cbf_train_setting import *
 # from config.test_train_setting import *
 # from config.flapper_train_setting import *
-from config.asm_train_setting import *
+# from config.asm_train_setting import *
+from config.micro_maze_setting import *
 from dqn.DQN_trainner import DQNTrainer
 
 if __name__ == '__main__':

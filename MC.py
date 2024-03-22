@@ -8,7 +8,7 @@ def V(x,y,bounds = [50,50]):
     mask = (x < 0) | (x > bounds[0]) | (y < 0) | (y > bounds[1])
     mask = np.where(mask, np.inf, 0)
     r = 0
-    cos = -50*np.cos(np.sqrt(((x-25)/1.7)**2+((y-25)/1.7)**2))
+    cos = -80*np.cos(np.sqrt(((x-25)/1.7)**2+((y-25)/1.7)**2))
     trap_0 = -50 * Gaussain_energy(x, y, 25, 25, 4, 4)
     trap_1 = -50 * Gaussain_energy(x, y, 20, 20, 4, 4)
     trap_2 = -30 * Gaussain_energy(x, y, 30, 30, 8, 3)
@@ -18,14 +18,13 @@ def V(x,y,bounds = [50,50]):
     return r + cos + trap_0 + trap_1 + trap_2 + trap_3 + trap_4 + trap_5 + mask
 
 def draw_potential(V):
-    x = np.linspace(0, 50, 100)
-    y = np.linspace(0, 50, 100)
+    x = np.linspace(0, 50, 50)
+    y = np.linspace(0, 50, 50)
     X, Y = np.meshgrid(x, y)
     Z = V(X, Y)
     fig = plt.figure()
     # draw a 2D plot
     # denote the value of colortable
-
     plt.contourf(X, Y, Z)
     plt.colorbar()
     plt.savefig('potential.png')
