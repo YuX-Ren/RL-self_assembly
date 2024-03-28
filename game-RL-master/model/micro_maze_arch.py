@@ -67,3 +67,16 @@ class DuelingDqnNet(nn.Module):
         value = self.value(features)
         advantage = self.advantage(features) 
         return value + advantage - advantage.mean(dim=-1, keepdim=True)
+    
+class position_embedding(nn.Module):
+    def __init__(self, d_model, max_len=50*50):
+        super(position_embedding, self).__init__()
+        self.d_model = d_model
+        self.max_len = max_len
+    def forward(self, x):   
+        position = th.arange(0, self.max_len).unsqueeze(1)
+        div_term = th.exp(th.arange(0, self.d_model, 2) * -(th.log(th.tensor(10000.0)) / self.d_model))
+        pe = th.zeros(self.max_len, self.d_model)
+        pe[:, 0::2] = th.sin(position * div_term)
+        pe[:, 1::2] = th.cos(position * div_term)
+        return pe

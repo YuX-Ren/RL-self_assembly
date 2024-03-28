@@ -9,7 +9,7 @@ def Gaussain_energy(x, y, mu_x, mu_y, sigma_x, sigma_y):
 def V(x,y,bounds = [50,50]):
     mask = (x < 0) | (x > bounds[0]) | (y < 0) | (y > bounds[1])
     mask = np.where(mask, np.inf, 0)
-    r = 0
+    r = np.sqrt((x-25)**2 + (y-25)**2)
     cos = -80*np.cos(np.sqrt(((x-25)/1.7)**2+((y-25)/1.7)**2))
     trap_0 = -50 * Gaussain_energy(x, y, 25, 25, 4, 4)
     trap_1 = -50 * Gaussain_energy(x, y, 20, 20, 4, 4)
@@ -20,7 +20,7 @@ def V(x,y,bounds = [50,50]):
     return r + cos + trap_0 + trap_1 + trap_2 + trap_3 + trap_4 + trap_5 + mask
 
 class Micro_discret_env():
-    def __init__(self, seed=0, temp_sele=3, threshold = 0.01, boundary = [280,350],potential_func=V,target_state = (5, 18)):
+    def __init__(self, seed=0, temp_sele=3, threshold = 0.01, boundary = [280,350],potential_func=V,target_state = (25, 25)):
         self.action_num = temp_sele
         self.height = boundary[1]
         self.low = boundary[0]
@@ -51,6 +51,8 @@ class Micro_discret_env():
         z_inv = p_4
         # generate a random number
         r = np.random.uniform(0,1) 
+        print(min(1,np.exp(-V_1_0/T)),min(1,np.exp(-V1_0/T)),min(1,np.exp(-V_0_1/T)),min(1,np.exp(-V0_1/T)))
+        # print(r, 1/z_inv,p_1/z_inv, p_2/z_inv, p_3/z_inv, p_4/z_inv)
         # the special case delat_P = 0 is considered
         if r < 1/z_inv:
             return x,y
@@ -64,7 +66,7 @@ class Micro_discret_env():
             return x,y+1
 
     def reset(self):
-        return 44, 48
+        # return 44, 48
         return np.random.randint(0,50), np.random.randint(0,50)
 
     def step(self, action_index, threshold = -30, time = 0.001):
@@ -81,7 +83,7 @@ class Micro_discret_env():
             reward = 10
             return self.state, reward, done, truncated, 0
         distance = np.sqrt((self.state[0] - self.target_state[0])**2 + (self.state[1] - self.target_state[1])**2)
-        reward = -0.1 - distance*0.1
+        reward = -0.01 
         return self.state, reward, done, truncated, distance
     
     
@@ -163,7 +165,7 @@ if __name__ == '__main__':
         step = 0
         while not done:
             step +=1
-            action = 1
+            action = 0
             state, reward, done, truncated, info = env.step(action)
             print(reward, done, action, info, state, step)
             # break

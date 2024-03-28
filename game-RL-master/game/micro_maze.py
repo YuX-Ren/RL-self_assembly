@@ -47,9 +47,11 @@ class Discret_env():
 
         self.all_reward += all_reward
         for key in self.state.keys():
-            if key == "Mstate":
+            if key == "site":
                 self.state[key][0:-1] = self.state[key][1:]
                 self.state[key][-1] = np.array(state, dtype=np.float32)
+            if key == "image":
+                self.state[key] = self.local_map(state[0], state[1], self.game.potential_image)
         return deepcopy(self.state), all_reward, done, truncated, info
     def reset_step(self, action_index):
         return_state, step_reward, done, truncated, info = self.step(action_index)

@@ -7,8 +7,8 @@ def Gaussain_energy(x, y, mu_x, mu_y, sigma_x, sigma_y):
 def V(x,y,bounds = [50,50]):
     mask = (x < 0) | (x > bounds[0]) | (y < 0) | (y > bounds[1])
     mask = np.where(mask, np.inf, 0)
-    r = 0
-    cos = -80*np.cos(np.sqrt(((x-25)/1.7)**2+((y-25)/1.7)**2))
+    r = np.sqrt((x-25)**2 + (y-25)**2)
+    cos = -50*np.cos(np.sqrt(((x-25)/1.7)**2+((y-25)/1.7)**2))
     trap_0 = -50 * Gaussain_energy(x, y, 25, 25, 4, 4)
     trap_1 = -50 * Gaussain_energy(x, y, 20, 20, 4, 4)
     trap_2 = -30 * Gaussain_energy(x, y, 30, 30, 8, 3)

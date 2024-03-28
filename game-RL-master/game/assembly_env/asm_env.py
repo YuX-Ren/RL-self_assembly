@@ -196,7 +196,8 @@ class continus_T_env():
         # print(modes)
         delta_modes = np.log(np.abs(modes)) - np.log(np.abs(cur_modes))
         # TODO: variant coefficient modes reward
-        reward = -delta_modes[0]*10
+        
+        reward = -delta_modes[0]*10 - delta_modes[1]*rate_1 - delta_modes[2]*rate_2
         distance = np.log(np.sum(self.target_state *(np.log(self.target_state) - np.log(self.state))))
         if np.log(np.abs(modes)) < -10:
             print(modes)
